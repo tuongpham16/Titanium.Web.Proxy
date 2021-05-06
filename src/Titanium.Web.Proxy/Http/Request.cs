@@ -222,6 +222,8 @@ namespace Titanium.Web.Proxy.Http
             }
         }
 
+        public object RequestHeaders { get; set; }
+
         internal override void EnsureBodyAvailable(bool throwWhenNotReadYet = true)
         {
             if (BodyInternal != null)

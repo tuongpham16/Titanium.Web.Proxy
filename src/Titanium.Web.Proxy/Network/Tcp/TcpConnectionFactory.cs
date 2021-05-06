@@ -360,7 +360,7 @@ retry:
 
                 if (upStreamEndPoint?.AddressFamily == AddressFamily.InterNetworkV6)
                 {
-                    ipAddresses = ipAddresses.Where(t => t.AddressFamily == AddressFamily.InterNetworkV6).ToArray();
+                    ipAddresses = ipAddresses.Where(t => t.AddressFamily == AddressFamily.InterNetworkV6 && !ipAddresses.Any(v4 => v4.AddressFamily == AddressFamily.InterNetwork && v4.ToString() ==  t.MapToIPv4().ToString())).ToArray();
                 }
 
                 if (ipAddresses == null || ipAddresses.Length == 0)
@@ -418,6 +418,11 @@ retry:
                         tcpServerSocket.SendTimeout = proxyServer.ConnectionTimeOutSeconds * 1000;
                         tcpServerSocket.LingerState = new LingerOption(true, proxyServer.TcpTimeWaitSeconds);
 
+                        //if (addressFamily == AddressFamily.InterNetworkV6)
+                        //{
+                        //    tcpServerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.IPv6Only, true);
+                        //}
+                        //else 
                         if (proxyServer.ReuseSocket && RunTime.IsSocketReuseAvailable)
                         {
                             tcpServerSocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);

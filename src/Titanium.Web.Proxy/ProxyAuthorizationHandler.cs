@@ -28,7 +28,9 @@ namespace Titanium.Web.Proxy
 
             try
             {
+                
                 var headerObj = httpHeaders.GetFirstHeader(KnownHeaders.ProxyAuthorization);
+
                 if (headerObj == null)
                 {
                     session.HttpClient.Response = createAuthentication407Response("Proxy Authentication Required");
@@ -99,6 +101,7 @@ namespace Titanium.Web.Proxy
                 // Return not authorized
                 session.HttpClient.Response = createAuthentication407Response("Proxy Authentication Invalid");
                 return false;
+
             }
 
             string username = decoded.Substring(0, colonIndex);
