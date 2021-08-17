@@ -360,7 +360,7 @@ retry:
 
                 if (upStreamEndPoint?.AddressFamily == AddressFamily.InterNetworkV6)
                 {
-                    ipAddresses = ipAddresses.Where(t => t.AddressFamily == AddressFamily.InterNetworkV6 && !ipAddresses.Any(v4 => v4.AddressFamily == AddressFamily.InterNetwork && v4.ToString() ==  t.MapToIPv4().ToString())).ToArray();
+                    ipAddresses = ipAddresses.Where(t => t.AddressFamily == AddressFamily.InterNetworkV6 && !ipAddresses.Any(v4 => v4.AddressFamily == AddressFamily.InterNetwork && v4.ToString() == t.MapToIPv4().ToString())).ToArray();
                 }
 
                 if (ipAddresses == null || ipAddresses.Length == 0)
@@ -819,7 +819,13 @@ retry:
 
             static void endConnect(IAsyncResult asyncResult)
             {
-                ((Socket)asyncResult.AsyncState).EndConnect(asyncResult);
+                try
+                {
+                    ((Socket)asyncResult.AsyncState).EndConnect(asyncResult);
+                }
+                catch (Exception)
+                {
+                }
             }
 
             public static Task CreateTask(Socket socket, IPAddress ipAddress, int port)
