@@ -9,7 +9,7 @@ namespace Titanium.Web.Proxy.EventArguments;
 /// <seealso cref="System.EventArgs" />
 public abstract class ProxyEventArgsBase : EventArgs
 {
-    private readonly TcpClientConnection clientConnection;
+    internal readonly TcpClientConnection clientConnection;
     internal readonly ProxyServer Server;
 
     internal ProxyEventArgsBase(ProxyServer server, TcpClientConnection clientConnection)

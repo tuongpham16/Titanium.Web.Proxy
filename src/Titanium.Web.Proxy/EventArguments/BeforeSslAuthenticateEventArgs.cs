@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Net;
+using System.Threading;
 using Titanium.Web.Proxy.Network.Tcp;
 
 namespace Titanium.Web.Proxy.EventArguments;
@@ -23,6 +24,8 @@ public class BeforeSslAuthenticateEventArgs : ProxyEventArgsBase
     ///     Otherwise the GenericCertificateName property of TransparentEndPoint.
     /// </summary>
     public string SniHostName { get; }
+
+    public IPEndPoint? RemoteEndPoint => clientConnection.RemoteEndPoint is IPEndPoint ? (IPEndPoint)clientConnection.RemoteEndPoint : null;
 
     /// <summary>
     ///     Should we decrypt the SSL request?

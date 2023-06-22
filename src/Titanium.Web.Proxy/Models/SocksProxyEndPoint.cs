@@ -36,10 +36,21 @@ public class SocksProxyEndPoint : TransparentBaseProxyEndPoint
     /// </summary>
     public event AsyncEventHandler<BeforeSslAuthenticateEventArgs>? BeforeSslAuthenticate;
 
+    public event AsyncEventHandler<SessionEventArgs>? BeforeStart;
+
     internal override async Task InvokeBeforeSslAuthenticate(ProxyServer proxyServer,
         BeforeSslAuthenticateEventArgs connectArgs, ExceptionHandler? exceptionFunc)
     {
         if (BeforeSslAuthenticate != null)
             await BeforeSslAuthenticate.InvokeAsync(proxyServer, connectArgs, exceptionFunc);
+    }
+
+    internal async Task InvokeBeforeStart(ProxyServer proxyServer,
+         SessionEventArgs connectArgs, ExceptionHandler? exceptionFunc)
+    {
+        if (BeforeStart != null)
+        {
+            await BeforeStart.InvokeAsync(proxyServer, connectArgs, exceptionFunc);
+        }
     }
 }
